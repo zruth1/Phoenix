@@ -1,0 +1,293 @@
+/* ─── Money Muse ─────────────────────────────────────────── */
+
+.mm-root {
+  min-height: 100vh;
+  background: var(--bg-tertiary);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Nav */
+.mm-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 1.25rem;
+  height: 52px;
+  background: var(--bg-primary);
+  border-bottom: 0.5px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.mm-back {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+}
+.mm-nav-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Main */
+.mm-main {
+  padding: 1.25rem;
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 80px;
+}
+
+/* Overview */
+.mm-overview {
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+.mm-overview-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.mm-stat { display: flex; flex-direction: column; gap: 3px; }
+.mm-stat-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.mm-stat-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.mm-stat-val.green { color: #22c55e; }
+.mm-stat-val.orange { color: #E85D26; }
+.mm-bar {
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.mm-bar-fill {
+  height: 100%;
+  background: #E85D26;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+.mm-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* Grid */
+.mm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Cards */
+.mm-card {
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+.mm-card-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 14px;
+}
+.mm-empty {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+/* Bar chart */
+.mm-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 80px;
+}
+.mm-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.mm-bar-col-fill {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: #E85D26;
+  opacity: 0.85;
+  min-height: 4px;
+}
+.mm-bar-col-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+}
+
+/* Goals */
+.mm-goals { display: flex; flex-direction: column; gap: 12px; }
+.mm-goal { display: flex; flex-direction: column; gap: 5px; }
+.mm-goal-row { display: flex; justify-content: space-between; align-items: center; }
+.mm-goal-name { font-size: 12px; color: var(--text-primary); }
+.mm-goal-amt { font-size: 11px; color: var(--text-tertiary); }
+.mm-goal-bar {
+  height: 4px;
+  background: var(--bg-secondary);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.mm-goal-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* Transactions */
+.mm-txns { display: flex; flex-direction: column; }
+.mm-txn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+.mm-txn:last-child { border-bottom: none; }
+.mm-txn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.mm-txn-info { flex: 1; }
+.mm-txn-name { font-size: 13px; color: var(--text-primary); }
+.mm-txn-cat { font-size: 11px; color: var(--text-tertiary); }
+.mm-txn-amt { font-size: 14px; font-weight: 500; }
+.mm-txn-amt.neg { color: #ef4444; }
+.mm-txn-amt.pos { color: #22c55e; }
+
+/* FAB */
+.mm-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #E85D26;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+/* Modal */
+.mm-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+}
+.mm-modal {
+  background: var(--bg-primary);
+  border-radius: 20px 20px 0 0;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  border-top: 0.5px solid var(--border-subtle);
+}
+.mm-modal-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--border-medium);
+  border-radius: 99px;
+  margin: 0 auto 1.25rem;
+}
+.mm-modal-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+.mm-modal-field { margin-bottom: 12px; }
+.mm-modal-field label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.mm-modal-field input,
+.mm-modal-field select {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 0.5px solid var(--border-medium);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+.mm-modal-field input:focus { border-color: #E85D26; }
+.mm-modal-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.mm-modal-btn {
+  width: 100%;
+  height: 42px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 10px;
+  background: #E85D26;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+.mm-modal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .mm-grid { grid-template-columns: 1fr; }
+  .mm-main { padding: 1rem 1rem 80px; }
+}
