@@ -11,6 +11,7 @@ export default function MoneyMuse() {
   const [goals, setGoals] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState("");
   const [form, setForm] = useState({
     type: "expense", amount: "", description: "", category: "", date: new Date().toISOString().split("T")[0],
   });
@@ -25,7 +26,7 @@ export default function MoneyMuse() {
     if (!user) return;
 
     const [{ data: txns }, { data: gs }] = await Promise.all([
-      supabase.from("transactions").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(20),
+      supabase.from("mm_transactions").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(20),
       supabase.from("savings_goals").select("*").eq("user_id", user.id),
     ]);
     if (txns) setTransactions(txns);
@@ -50,9 +51,10 @@ export default function MoneyMuse() {
 
   async function handleAdd(e) {
     e.preventDefault();
+    setFormError("");
     setLoading(true);
     const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from("transactions").insert({
+    const { error } = await supabase.from("mm_transactions").insert({
       user_id: user.id,
       type: form.type,
       amount: Number(form.amount),
@@ -61,6 +63,7 @@ export default function MoneyMuse() {
       date: form.date,
     });
     setLoading(false);
+    if (error) { setFormError(error.message); return; }
     setShowModal(false);
     setForm({ type: "expense", amount: "", description: "", category: "", date: new Date().toISOString().split("T")[0] });
     fetchAll();
@@ -181,6 +184,7 @@ export default function MoneyMuse() {
             <div className="mm-modal-handle" />
             <div className="mm-modal-title">Add transaction</div>
             <form onSubmit={handleAdd}>
+              {formError && <p style={{ color: "#b91c1c", fontSize: 13, marginBottom: "0.75rem", background: "#fef2f2", padding: "8px 12px", borderRadius: 8 }}>{formError}</p>}
               <div className="mm-modal-row">
                 <div className="mm-modal-field">
                   <label>Type</label>
