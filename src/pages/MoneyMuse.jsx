@@ -53,15 +53,24 @@ export default function MoneyMuse() {
     e.preventDefault();
     setFormError("");
     setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    const { error } = await supabase.from("mm_transactions").insert({
-      user_id: user.id,
+    const { data: authData, error: authError } = await supabase.auth.getUser();
+    console.log("user:", authData?.user, "authError:", authError);
+    if (!authData?.user) {
+      setFormError("Not authenticated — please log out and back in.");
+      setLoading(false);
+      return;
+    }
+    const payload = {
+      user_id: authData.user.id,
       type: form.type,
       amount: Number(form.amount),
       description: form.description,
       category: form.category,
       date: form.date,
-    });
+    };
+    console.log("inserting:", payload);
+    const { data, error } = await supabase.from("mm_transactions").insert(payload).select();
+    console.log("insert result — data:", data, "error:", error);
     setLoading(false);
     if (error) { setFormError(error.message); return; }
     setShowModal(false);
