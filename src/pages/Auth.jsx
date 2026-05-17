@@ -45,9 +45,22 @@ export default function Auth() {
         },
       },
     });
-    setLoading(false);
-    if (error) return setError(error.message);
-    if (data.user) navigate("/dashboard");
+    if (error) {
+      setLoading(false);
+      return setError(error.message);
+    }
+    if (data.user) {
+      // Upsert profile client-side as a belt-and-suspenders fallback
+      await supabase.from("profiles").upsert({
+        id: data.user.id,
+        full_name: form.name,
+        username: form.username,
+        phone: form.phone,
+        email: form.email,
+      });
+      setLoading(false);
+      navigate("/dashboard");
+    }
   }
 
   async function handleGoogle() {
