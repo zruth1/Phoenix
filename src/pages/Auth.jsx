@@ -8,6 +8,7 @@ export default function Auth() {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [confirmSent, setConfirmSent] = useState(false);
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -50,7 +51,6 @@ export default function Auth() {
       return setError(error.message);
     }
     if (data.user) {
-      // Upsert profile client-side as a belt-and-suspenders fallback
       await supabase.from("profiles").upsert({
         id: data.user.id,
         full_name: form.name,
@@ -59,7 +59,11 @@ export default function Auth() {
         email: form.email,
       });
       setLoading(false);
-      navigate("/dashboard");
+      if (data.session) {
+        navigate("/dashboard");
+      } else {
+        setConfirmSent(true);
+      }
     }
   }
 
@@ -68,6 +72,35 @@ export default function Auth() {
       provider: "google",
       options: { redirectTo: `${window.location.origin}/dashboard` },
     });
+  }
+
+  if (confirmSent) {
+    return (
+      <div className="auth-root">
+        <div className="auth-card" style={{ textAlign: "center" }}>
+          <div className="auth-logo">Phoenix<span className="auth-dot">.</span></div>
+          <p className="auth-tagline">your life, organized.</p>
+          <div style={{ fontSize: 40, margin: "1.5rem 0 1rem" }}>📬</div>
+          <h2 style={{ fontFamily: "Sora, sans-serif", fontSize: 18, fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.5rem" }}>
+            Check your email
+          </h2>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6 }}>
+            We sent a confirmation link to<br />
+            <strong style={{ color: "var(--text-primary)" }}>{form.email}</strong>
+          </p>
+          <p style={{ fontSize: 12, color: "var(--text-tertiary)", marginTop: "1rem" }}>
+            Click the link in the email to activate your account, then come back to sign in.
+          </p>
+          <button
+            className="auth-btn"
+            style={{ marginTop: "1.5rem" }}
+            onClick={() => { setConfirmSent(false); setTab("login"); }}
+          >
+            Back to sign in
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
