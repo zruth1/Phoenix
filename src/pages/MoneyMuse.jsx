@@ -27,7 +27,7 @@ export default function MoneyMuse() {
 
     const [{ data: txns }, { data: gs }] = await Promise.all([
       supabase.from("mm_transactions").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(20),
-      supabase.from("savings_goals").select("*").eq("user_id", user.id),
+      supabase.from("mm_savings_goals").select("*").eq("user_id", user.id),
     ]);
     if (txns) setTransactions(txns);
     if (gs) setGoals(gs);
